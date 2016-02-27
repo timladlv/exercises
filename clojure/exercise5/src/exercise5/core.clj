@@ -8,7 +8,7 @@
     (read-string (read-line))))
 
 (defn get-output[x y f]
-  (str x f y "=" (f x y)))
+  (clojure.string/join " " (vector x f y "=" ((resolve (symbol f)) x y))))
 
 (defn -main
   "exercise 5 collect numbers then print ops on them"
@@ -17,4 +17,7 @@
     (let
       [first (get-input "First number: ")
       second (get-input "Second number: ")]
-      (println (get-output first second +)))))
+      (println (get-output first second "+"))
+      (println (get-output first second "-"))
+      (println (get-output first second "*"))
+      (println (get-output first second "/")))))
