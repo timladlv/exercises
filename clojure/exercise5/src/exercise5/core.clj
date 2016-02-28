@@ -1,11 +1,6 @@
 (ns exercise5.core
+  (:require common.core)
   (:gen-class))
-
-(defn get-input[prompt]
-  (do
-    (print prompt)
-    (flush)
-    (read-string (read-line))))
 
 (defn get-output[x y f]
   (clojure.string/join " " (vector x f y "=" ((resolve (symbol f)) x y))))
@@ -15,8 +10,8 @@
   [& args]
   (do
     (let
-      [first (get-input "First number: ")
-      second (get-input "Second number: ")]
+      [first (common.core/get-input "First number: ")
+      second (common.core/get-input "Second number: ")]
       (println (get-output first second "+"))
       (println (get-output first second "-"))
       (println (get-output first second "*"))
