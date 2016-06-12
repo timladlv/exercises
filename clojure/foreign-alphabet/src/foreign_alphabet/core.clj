@@ -11,19 +11,21 @@
     [(second f) (second s)]))
 
 ;; f comes before s foreign-alphabetically, return vector of chars ordered
-(defn derive-letter-order[f s]
-  (cond
-    (= f s)
-      []
-    (nil? (seq f))
-      []
-    (not= (first (seq f)) (first (seq s)))
-      [(first f), (first s)]
-    :else (recur (rest f) (rest s))))
+(defn derive-letter-order
+  ([[f s]]
+   (derive-letter-order f s))
+  ([f s]
+    (cond
+      (= f s)
+        []
+      (nil? (seq f))
+        []
+      (not= (first (seq f)) (first (seq s)))
+        [(first f), (first s)]
+      :else (recur (rest f) (rest s)))))
 
 (defn alphabet-from-dictionary[dictionary]
   (let [indexed-dict (map-indexed vector dictionary)
         words-pairs (words-to-compare indexed-dict)
-        pairs-to-compare (partition 2 1 words-pairs)
-        alphabet (map derive-letter-order (first pairs-to-compare) (second pairs-to-compare))]
+        alphabet (map derive-letter-order words-pairs)]
   alphabet))
