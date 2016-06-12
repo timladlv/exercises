@@ -24,5 +24,6 @@
 (defn alphabet-from-dictionary[dictionary]
   (let [indexed-dict (map-indexed vector dictionary)
         words-pairs (words-to-compare indexed-dict)
-        alphabet (first words-pairs)]
+        pairs-to-compare (partition 2 1 words-pairs)
+        alphabet (map derive-letter-order (first pairs-to-compare) (second pairs-to-compare))]
   alphabet))

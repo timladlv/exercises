@@ -10,4 +10,12 @@
 
 (expect [] (derive-letter-order "D" "DOG"))
 
+(expect [\Z, \Y] (derive-letter-order "ZZXP" "ZYXX"))
+(expect [\Z, \H] (derive-letter-order "ZZXP" "ZHXY"))
+(expect [\Z, \H] (derive-letter-order "ZZXP" "HXYY"))
+(expect [\Z, \X] (derive-letter-order "ZZXP" "XTPP"))
+
+
+
+
 (expect [\Z, \Y, \H, \X, \T, \P] (alphabet-from-dictionary ["ZZXP", "ZYXX", "ZHXY", "HXYY", "XTPP", "TZXT", "TZXP"]))
