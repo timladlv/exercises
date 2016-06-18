@@ -14,4 +14,6 @@
 
 (expect [\Z, \Y] (derive-letter-order (first ["ZZXP" "ZYXX"]) (second ["ZZXP" "ZYXX"])))
 
+(expect #{[\A \B] [\B \C]} (remove-matches \C #{[\A \B] [\B \C] [\C \A]}))
+
 (expect [\Z, \Y, \H, \X, \T, \P] (alphabet-from-dictionary ["ZZXP", "ZYXX", "ZHXY", "HXYY", "XTPP", "TZXT", "TZXP"]))
