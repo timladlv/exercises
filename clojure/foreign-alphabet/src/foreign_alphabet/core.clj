@@ -1,10 +1,8 @@
 (ns foreign-alphabet.core
+  (:require
+            [clojure.set :as set]
+            [clojure.string :as str])
   (:gen-class))
-
-(defn -main
-  "I don't do a whole lot ... yet."
-  [& args]
-  (println "Hello, World!"))
 
 (defn words-to-compare[indexed-words]
   (for [f indexed-words, s indexed-words, :when (< (first f) (first s))]
@@ -30,19 +28,32 @@
   (set (filter #(not= x (first %)) xs)))
 
 (defn derive-alphabet
-  "given a set of vectors containing ordered pair return list of elements ordered"
+  "given a set of vectors containing ordered pairs return list of elements ordered"
   [ordered-letter-pairs-set]
   (loop [alphabet [] pairs ordered-letter-pairs-set]
     (let [firsts (set (map first pairs))
           seconds (set (map second pairs))
-          next-letter (first (seq (clojure.set/difference firsts seconds)))]
+          next-letter (first (seq (set/difference firsts seconds)))]
       (if (< 1 (count pairs))
         (recur (conj alphabet next-letter) (remove-matches next-letter pairs))
         (concat alphabet firsts seconds)))))
 
-(defn alphabet-from-dictionary[dictionary]
+(defn alphabet-from-dictionary
+  "given a collection of words, compare each word to find letter order pairs then sort"
+  [dictionary]
   (let [indexed-dict (map-indexed vector dictionary)
         words-pairs (words-to-compare indexed-dict)
         ordered-letter-pairs-set (set (map derive-letter-order words-pairs))
         alphabet (derive-alphabet ordered-letter-pairs-set)]
   alphabet))
+
+(defn -main
+  "Get a dictionary and return the alphabet"
+  [& args]
+  (do
+    (let
+      [words (do (print "Please enter dictionary: ") (flush) (read-line))
+       dictionary (str/split words #" ")
+       alphabet (alphabet-from-dictionary dictionary)
+       ]
+      (println alphabet))))
